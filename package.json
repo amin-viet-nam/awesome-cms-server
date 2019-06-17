@@ -1,5 +1,5 @@
 {
-  "name": "cms-backend-server",
+  "name": "cms-api-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

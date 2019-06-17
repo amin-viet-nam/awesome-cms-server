@@ -1,1 +1,1 @@
-cms-server
+cms-api-server
