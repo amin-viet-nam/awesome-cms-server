@@ -1,28 +1,10 @@
 module.exports = (router) => {
 
-    router.get('/', (req, res, next) => {
-        res.send('Cms');
-    });
-
-    router.get('/ping', (req, res, next) => {
-        res.send('pong');
-    });
-
-    router.get('/edit/signup', (req, res, next) => {
-        return req.service
-            .authenticate
-            .verifyFacebookAccessToken(req.query.accessToken)
-            .then(result => {
-                res.send(result);
-            })
-            .catch(next);
-    });
-
     router.get('/edit/content', (req, res, next) => {
         req.service
             .content
             .getContents({
-                id: req.query.id,
+                id: parseInt(req.query.id),
                 language: req.query.language,
                 type: req.query.type,
                 status: req.query.status,
@@ -38,7 +20,7 @@ module.exports = (router) => {
     router.get('/edit/content/:id', (req, res, next) => {
         req.service
             .content
-            .getContentById(req.params.id)
+            .getContentById(parseInt(req.params.id))
             .then((value) => {
                 res.send(value);
             }).catch(next);
@@ -57,6 +39,15 @@ module.exports = (router) => {
         req.service
             .content
             .replaceContent(req.body)
+            .then((value) => {
+                res.send(value);
+            }).catch(next);
+    });
+
+    router.delete('/edit/content/:id', (req, res, next) => {
+        req.service
+            .content
+            .deleteContent(req.query.id)
             .then((value) => {
                 res.send(value);
             }).catch(next);

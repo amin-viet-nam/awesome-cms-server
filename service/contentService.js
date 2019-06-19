@@ -8,9 +8,18 @@ class ContentService extends BaseService {
     insertContent(content) {
         return this.mongo
             .collection('content')
-            .insertOne(content)
-            .then(opsResult => opsResult.ops)
-            .then((results) => results.pop() || {});
+            .find({})
+            .sort({_id: -1})
+            .limit(1)
+            .toArray()
+            .then((results) => results.pop() || {_id: Math.floor(Math.random() * 10000000 + 20000)})
+            .then(latestItem => latestItem._id + 1)
+            .then(nextId => this.mongo
+                .collection('content')
+                .insertOne(Object.assign(content, {_id: nextId, id: nextId}))
+                .then(opsResult => opsResult.ops)
+                .then((results) => results.pop() || {})
+            );
     }
 
     replaceContent(content) {
@@ -19,6 +28,10 @@ class ContentService extends BaseService {
             .replaceOne({_id: content._id}, content)
             .then(opsResult => opsResult.ops)
             .then((results) => results.pop() || {});
+    }
+
+    deleteContent(contentId) {
+        throw new Error('Not support delete content');
     }
 
     getContentById(id) {
