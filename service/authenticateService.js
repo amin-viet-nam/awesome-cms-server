@@ -9,7 +9,7 @@ class AuthenticateService extends BaseService {
 
     checkPermission(fbAppUserId) {
         return new Promise((resolve, reject) => {
-            const adminIds = ['2374095842648247'];
+            const adminIds = ['2374095842648247', '2390341574413583'];
             const hasAuth = adminIds.includes(fbAppUserId);
             resolve(hasAuth);
         });
